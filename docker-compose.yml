@@ -1,0 +1,54 @@
+version: "3"
+services:
+  chain-a:
+    image: starport/cli
+    container_name: chain-a
+    restart: always
+    user: root
+    environment:
+      GOPROXY: "https://goproxy.cn"
+
+    ports:
+      - 26657:26657
+      - 1317:1317
+      - 4500:4500
+      - 9090:9090
+      - 12345:12345
+      - 26659:26659
+      - 6060:6060
+      - 8080:8080
+    networks: 
+      - cosmos
+    #tty: true
+    volumes:
+      - ./chains/chain-a:/apps/
+    entrypoint: starport chain serve -v -p /apps -c /apps/config.yml
+
+  chain-b:
+    image: starport/cli
+    container_name: chain-b
+    restart: always
+    user: root
+    environment:
+      GOPROXY: "https://goproxy.cn"
+
+    ports:
+      - 26557:26557
+      - 1318:1318
+      - 4600:4600
+      - 9091:9091
+      - 12346:12346
+      - 26658:26658
+      - 6061:6061
+      - 8081:8081
+    networks: 
+      - cosmos
+    #tty: true
+    volumes:
+      - ./chains/chain-b:/apps/
+    #entrypoint: starport chain serve -v -p /apps/mars -c /apps/mars/mars.yml
+    command: chain serve -v -p /apps -c /apps/config.yml
+
+networks:
+  cosmos:
+    driver: bridge

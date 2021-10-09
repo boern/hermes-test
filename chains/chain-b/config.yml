@@ -1,0 +1,26 @@
+accounts:
+  - name: validator-b
+    coins: ["10000000stake", "1000000000coinb"]
+  - name: bob
+    coins: ["1000000stake", "1000000coinb"]
+    address: "chainb1pnv0elanhs8qcq2sst0jssak8magjpj3ggq45x"
+validator:
+  name: validator-b
+  staked: "1000000stake"
+build:
+  binary: chain-b
+client:
+  vuex:
+    path: "vue/src/store"
+genesis:
+  chain_id: "chain-b"
+init:
+  home: "./.chain-b"
+host:
+  rpc: "0.0.0.0:26557"
+  api: "0.0.0.0:1318"
+  grpc: "0.0.0.0:9091"
+  dev-ui: "0.0.0.0:12346"
+  p2p: "0.0.0.0:26658"
+  prof: "0.0.0.0:6061"
+  frontend: "0.0.0.0:8081"
