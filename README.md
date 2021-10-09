@@ -267,9 +267,7 @@ In the terminal prompt for each chain run the commands below
 
 ```
 docker exec -it chain-a bash
-
 chain-a --node tcp://localhost:26657 query bank balances $(chain-a --home .chain-a keys --keyring-backend="test" show alice -a)
-
 exit
 ```
 
@@ -390,7 +388,7 @@ hermes -j -c ./config.toml tx raw packet-ack chain-b chain-a transfer channel-0 
 To ensure the tokens were transferred back, query Alice balance again:
 
 ```
-docker exec chain-a bash
+docker exec -it chain-a bash
 chain-a --node tcp://localhost:26657 query bank balances $(chain-a --home .chain-a keys --keyring-backend="test" show alice -a)
 exit
 ```
@@ -400,9 +398,16 @@ exit
 Query Bob's balance to ensure his token balance for the `ibc/[hash]` denom shows `0` balance
 
 ```
-docker exec chain-b bash
+docker exec -it chain-b bash
 chain-b --node tcp://localhost:26557 query bank balances $(chain-b --home .chain-b keys --keyring-backend="test" show bob -a)
 exit
+```
+
+## Stop and save docker container.
+To avoid importing accounts repeatedly, you can just only stop docker
+```
+cd /path/to/your/hermes-test
+docker-compose stop
 ```
 
 ## Congratulations

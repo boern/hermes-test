@@ -2,7 +2,7 @@ accounts:
   - name: validator-b
     coins: ["10000000stake", "1000000000coinb"]
   - name: bob
-    coins: ["1000000stake", "1000000coinb"]
+    coins: ["10000000000stake", "10000000000000coinb"]
     address: "chainb1pnv0elanhs8qcq2sst0jssak8magjpj3ggq45x"
 validator:
   name: validator-b
