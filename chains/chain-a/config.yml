@@ -1,8 +1,8 @@
 accounts:
   - name: validator-a
-    coins: ["1000000stake", "1000000000coina"]
+    coins: ["1000000stake", "1000000000samoleans"]
   - name: alice
-    coins: ["10000000000stake", "10000000000000coina"]
+    coins: ["1000000stake", "100000000000samoleans"]
     address: "chaina1v2hn2yg8hxwcsqp5w2ghan6ufvztaz5tg0qd89"
 validator:
   name: validator-a

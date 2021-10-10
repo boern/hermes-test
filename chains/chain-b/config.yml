@@ -1,8 +1,8 @@
 accounts:
   - name: validator-b
-    coins: ["10000000stake", "1000000000coinb"]
+    coins: ["1000000stake", "1000000000samoleans"]
   - name: bob
-    coins: ["10000000000stake", "10000000000000coinb"]
+    coins: ["1000000stake", "100000000000samoleans"]
     address: "chainb1pnv0elanhs8qcq2sst0jssak8magjpj3ggq45x"
 validator:
   name: validator-b

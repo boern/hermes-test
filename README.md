@@ -77,7 +77,7 @@ This command restores a key for a user in `chain-b` that we will be using during
 
 ```
 # into the container
-docker exec -it chain-a bash
+docker exec -it chain-b bash
 
 # restore the key for alice
 chain-b keys add bob --recover --home .chain-b
@@ -137,25 +137,25 @@ hermes -c ./config.toml keys list chain-b
 Create a chain-b client on chain-a:
 
 ```
-hermes -j -c ./config.toml tx raw create-client chain-a chain-b | jq
+hermes -c ./config.toml tx raw create-client chain-a chain-b 
 ```
 
 Query the client state
 
 ```
-hermes -j -c ./config.toml query client state chain-a 07-tendermint-0 | jq
+hermes -c ./config.toml query client state chain-a 07-tendermint-0 
 ```
 
 Create a chain-a client on chain-b
 
 ```
-hermes -j -c ./config.toml tx raw create-client chain-b chain-a | jq
+hermes -c ./config.toml tx raw create-client chain-b chain-a 
 ```
 
 Query the client state
 
 ```
-hermes -j -c ./config.toml query client state chain-b 07-tendermint-0 | jq
+hermes -c ./config.toml query client state chain-b 07-tendermint-0
 ```
 
 ### Update client
@@ -163,13 +163,13 @@ hermes -j -c ./config.toml query client state chain-b 07-tendermint-0 | jq
 Update the chain-b client on chain-a
 
 ```
-hermes -j -c ./config.toml tx raw update-client chain-a 07-tendermint-0 | jq
+hermes -c ./config.toml tx raw update-client chain-a 07-tendermint-0 
 ```
 
 Query the client state
 
 ```
-hermes -j -c ./config.toml query client state chain-a 07-tendermint-0 | jq
+hermes -c ./config.toml query client state chain-a 07-tendermint-0 
 ```
 
 ## IBC Connection
@@ -182,25 +182,25 @@ The steps below need to succeed in order to have a connection opened between cha
 ### ConnOpenInit
 
 ```
-hermes -j -c ./config.toml tx raw conn-init chain-a chain-b 07-tendermint-0 07-tendermint-0 | jq
+hermes -c ./config.toml tx raw conn-init chain-a chain-b 07-tendermint-0 07-tendermint-0 
 ```
 
 ### ConnOpenTry
 
 ```
-hermes -j -c ./config.toml tx raw conn-try chain-b chain-a 07-tendermint-0 07-tendermint-0 -s connection-0 | jq
+hermes -c ./config.toml tx raw conn-try chain-b chain-a 07-tendermint-0 07-tendermint-0 -s connection-0 
 ```
 
 ### ConnOpenAck
 
 ```
-hermes -j -c ./config.toml tx raw conn-ack chain-a chain-b 07-tendermint-0 07-tendermint-0 -d connection-0 -s connection-0 | jq
+hermes -c ./config.toml tx raw conn-ack chain-a chain-b 07-tendermint-0 07-tendermint-0 -d connection-0 -s connection-0 
 ```
 
 ### ConnOpenConfirm
 
 ```
-hermes -j -c ./config.toml tx raw conn-confirm chain-b chain-a 07-tendermint-0 07-tendermint-0 -d connection-0 -s connection-0 | jq
+hermes -c ./config.toml tx raw conn-confirm chain-b chain-a 07-tendermint-0 07-tendermint-0 -d connection-0 -s connection-0
 ```
 
 ### Query connection
@@ -208,11 +208,11 @@ hermes -j -c ./config.toml tx raw conn-confirm chain-b chain-a 07-tendermint-0 0
 The commands below allow you to query the connection state on each chain.
 
 ```
-hermes -j -c ./config.toml query connection end chain-a connection-0 | jq
+hermes -c ./config.toml query connection end chain-a connection-0 
 ```
 
 ```
-hermes -j -c ./config.toml query connection end chain-b connection-0 | jq
+hermes -c ./config.toml query connection end chain-b connection-0 
 ```
 
 ## IBC Channel 
@@ -225,25 +225,25 @@ The steps below need to succeed in order to have a channel opened between chain-
 ### ChanOpenInit
 
 ```
-hermes -j -c ./config.toml tx raw chan-open-init chain-a chain-b connection-0 transfer transfer -o UNORDERED | jq
+hermes -c ./config.toml tx raw chan-open-init chain-a chain-b connection-0 transfer transfer -o UNORDERED 
 ```
 
 ### ChanOpenTry
 
 ```
-hermes -j -c ./config.toml tx raw chan-open-try chain-b chain-a connection-0 transfer transfer -s channel-0 | jq
+hermes -c ./config.toml tx raw chan-open-try chain-b chain-a connection-0 transfer transfer -s channel-0 
 ```
 
 ### ChanOpenAck
 
 ```
-hermes -j -c ./config.toml tx raw chan-open-ack chain-a chain-b connection-0 transfer transfer -d channel-0 -s channel-0 | jq
+hermes -c ./config.toml tx raw chan-open-ack chain-a chain-b connection-0 transfer transfer -d channel-0 -s channel-0 
 ```
 
 ### ChanOpenConfirm
 
 ```
-hermes -j -c ./config.toml tx raw chan-open-confirm chain-b chain-a connection-0 transfer transfer -d channel-0 -s channel-0 | jq
+hermes -c ./config.toml tx raw chan-open-confirm chain-b chain-a connection-0 transfer transfer -d channel-0 -s channel-0 
 ```
 
 ### Query channel
@@ -251,11 +251,11 @@ hermes -j -c ./config.toml tx raw chan-open-confirm chain-b chain-a connection-0
 Use these commands to query the channel end on each chain
 
 ```
-hermes -j -c ./config.toml query channel end chain-a transfer channel-0 | jq
+hermes -c ./config.toml query channel end chain-a transfer channel-0 
 ```
 
 ```
-hermes -j -c ./config.toml query channel end chain-b transfer channel-0 | jq
+hermes -c ./config.toml query channel end chain-b transfer channel-0 
 ```
 
 ## IBC Relay Packets (Transfer Tokens)  
@@ -279,7 +279,6 @@ exit
 docker exec -it chain-b bash
 chain-b --node tcp://localhost:26557 query bank balances $(chain-b --home .chain-b keys --keyring-backend="test" show bob -a)
 exit
-
 ```
 
 > Please note that Bob only has `coinb` tokens (also some `stake` tokens)
@@ -291,7 +290,7 @@ Now we will transfer some tokens
 ### Send packet
 
 ``` 
-hermes -j -c ./config.toml tx raw ft-transfer chain-a chain-b transfer channel-0 999 -o 1000 -n 1 -d coina | jq
+hermes -c ./config.toml tx raw ft-transfer chain-b chain-a transfer channel-0 999 -o 1000 -n 1 -d samoleans
 
 ```
 
@@ -306,31 +305,31 @@ echo "[DATA]" | xxd -r -p | jq
 ### Query packet commitments
 
 ```
-hermes -j -c ./config.toml query packet commitments chain-a transfer channel-0 | jq
+hermes -c ./config.toml query packet commitments chain-a transfer channel-0 
 ```
 
 ### Query unreceived packets on chain b
 
 ```
-hermes -j -c ./config.toml query packet unreceived-packets chain-b transfer channel-0 | jq
+hermes -c ./config.toml query packet unreceived-packets chain-b transfer channel-0 
 ```
 
 ### Send recv_packet to chain b
 
 ```
-hermes -j -c ./config.toml tx raw packet-recv chain-b chain-a transfer channel-0 | jq
+hermes -c ./config.toml tx raw packet-recv chain-b chain-a transfer channel-0 
 ```
 
 ### Query unreceived ack on chain a
 
 ```
-hermes -j -c ./config.toml query packet unreceived-acks chain-a chain-b transfer channel-0 | jq
+hermes -c ./config.toml query packet unreceived-acks chain-a transfer channel-0 
 ```
 
 ### Send ack to chain a
 
 ```
-hermes -j -c ./config.toml tx raw packet-ack chain-a chain-b transfer channel-0 | jq
+hermes -c ./config.toml tx raw packet-ack chain-a chain-b transfer channel-0 
 ```
 
 ### Query balance - Alice
@@ -368,19 +367,19 @@ curl http://localhost:1318/ibc/applications/transfer/v1beta1/denom_traces/[denom
 Just replace the `[HASH]` with the hash in the `denom` field
 
 ```
-hermes -j -c ./config.toml tx raw ft-transfer chain-b chain-a transfer channel-0 999 -o 1000 -n 1 -d ibc/[HASH] | jq
+hermes -c ./config.toml tx raw ft-transfer chain-a chain-b transfer channel-0 999 -o 1000 -n 1 -d ibc/[HASH] 
 ```
 
 ### Send recv_packet to chain b
 
 ```
-hermes -j -c ./config.toml tx raw packet-recv chain-a chain-b transfer channel-0 | jq
+hermes -c ./config.toml tx raw packet-recv chain-a chain-b transfer channel-0 
 ```
 
 ### Send ack to chain b
 
 ```
-hermes -j -c ./config.toml tx raw packet-ack chain-b chain-a transfer channel-0 | jq
+hermes -c ./config.toml tx raw packet-ack chain-b chain-a transfer channel-0 
 ```
 
 ### Query balance - Alice
